@@ -1,4 +1,3 @@
-export interface NoteCardProps {
-  content: string;
-  date: Date;
-}
+import { NoteProps } from '..';
+
+export type NoteCardProps = Omit<NoteProps, 'id'>;

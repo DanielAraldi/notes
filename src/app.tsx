@@ -1,7 +1,22 @@
+import { useState } from 'react';
+import { nanoid } from 'nanoid';
 import { NewNoteCard, NoteCard } from './components';
 import { LOGO } from './config';
+import { NoteProps } from './@types';
 
 export function App() {
+  const [notes, setNotes] = useState<NoteProps[]>([]);
+
+  function onNoteCreated(content: string): void {
+    const newNote: NoteProps = {
+      id: nanoid(),
+      date: new Date(),
+      content,
+    };
+
+    setNotes([newNote, ...notes]);
+  }
+
   return (
     <div className='mx-auto max-w-6xl my-12 space-y-6'>
       <img src={LOGO} alt='Notes' />
@@ -17,9 +32,11 @@ export function App() {
       <div className='h-px bg-slate-700' />
 
       <div className='grid grid-cols-3 gap-6 auto-rows-[250px]'>
-        <NewNoteCard />
+        <NewNoteCard onNoteCreated={onNoteCreated} />
 
-        <NoteCard date={new Date()} content='Hello World!' />
+        {notes.map(({ id, ...rest }) => (
+          <NoteCard key={id} {...rest} />
+        ))}
       </div>
     </div>
   );

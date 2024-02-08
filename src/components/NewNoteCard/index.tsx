@@ -2,8 +2,9 @@ import { useState, ChangeEvent, FormEvent } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 import { toast } from 'sonner';
+import { NewNoteCardProps } from '../../@types';
 
-export function NewNoteCard() {
+export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
   const [shouldShowOnboarding, setShouldShowOnboarding] =
     useState<boolean>(true);
   const [content, setContent] = useState<string>('');
@@ -15,11 +16,16 @@ export function NewNoteCard() {
   function handleContentChanged(event: ChangeEvent<HTMLTextAreaElement>): void {
     setContent(event.target.value);
 
-    if (event.target.value === '') setShouldShowOnboarding(true);
+    if (!event.target.value) setShouldShowOnboarding(true);
   }
 
   function handleSaveNote(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
+
+    onNoteCreated(content);
+
+    setContent('');
+    setShouldShowOnboarding(true);
 
     toast.success('Nota criada com sucesso!');
   }

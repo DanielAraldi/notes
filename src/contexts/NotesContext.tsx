@@ -20,7 +20,7 @@ export function NotesProvider({ children }: Required<PropsWithChildren>) {
     const newNote: NoteProps = {
       id: nanoid(),
       date: new Date(),
-      content,
+      content: content.trim(),
     };
 
     handleNotesChange([newNote, ...notes]);

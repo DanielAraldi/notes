@@ -163,7 +163,7 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
                 <textarea
                   autoFocus
                   value={content}
-                  className='text-sm leading-6 text-slate-400 bg-transparent resize-none flex-1 outline-none'
+                  className='text-sm leading-6 text-slate-400 bg-transparent resize-none flex-1 outline-none scrollbar-thin scrollbar-thumb-slate-500 scrollbar-track-transparent'
                   onChange={handleContentChanged}
                 />
               )}

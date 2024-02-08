@@ -32,12 +32,14 @@ export function NoteCard({ id, content, date, onNoteDeleted }: NoteCardProps) {
             <X className='size-5' />
           </Dialog.Close>
 
-          <div className='flex flex-1 flex-col gap-3 p-5'>
+          <div className='flex flex-1 flex-col gap-3 p-5 overflow-y-hidden'>
             <span className='text-sm font-medium text-slate-300'>
               {dateDistanceToNow}
             </span>
 
-            <p className='text-sm leading-6 text-slate-400'>{content}</p>
+            <p className='flex-1 text-sm leading-6 text-slate-400 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-500 scrollbar-track-transparent'>
+              {content}
+            </p>
           </div>
 
           <Button variant='delete' onClick={() => onNoteDeleted(id)} />

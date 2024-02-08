@@ -1,11 +1,16 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { nanoid } from 'nanoid';
 import { NewNoteCard, NoteCard } from './components';
 import { LOGO } from './config';
 import { NoteProps } from './@types';
 
 export function App() {
-  const [notes, setNotes] = useState<NoteProps[]>([]);
+  const [search, setSearch] = useState<string>('');
+  const [notes, setNotes] = useState<NoteProps[]>(() => {
+    const notesOnStorage = localStorage.getItem('notes');
+    if (notesOnStorage) return JSON.parse(notesOnStorage);
+    return [];
+  });
 
   function onNoteCreated(content: string): void {
     const newNote: NoteProps = {
@@ -14,8 +19,27 @@ export function App() {
       content,
     };
 
-    setNotes([newNote, ...notes]);
+    const notesArray = [newNote, ...notes];
+
+    setNotes(notesArray);
+
+    localStorage.setItem('notes', JSON.stringify(notesArray));
   }
+
+  function handleSearch(event: ChangeEvent<HTMLInputElement>): void {
+    const query = event.target.value;
+
+    setSearch(query);
+  }
+
+  const filteredNotes: NoteProps[] = search
+    ? notes.filter(note =>
+        note.content
+          .trim()
+          .toLocaleLowerCase()
+          .includes(search.trim().toLocaleLowerCase())
+      )
+    : notes;
 
   return (
     <div className='mx-auto max-w-6xl my-12 space-y-6'>
@@ -23,9 +47,11 @@ export function App() {
 
       <form className='w-full'>
         <input
+          value={search}
           type='text'
           placeholder='Busque em suas notas...'
           className='w-full bg-transparent text-3xl font-semibold tracking-tight outline-none placeholder:text-slate-500'
+          onChange={handleSearch}
         />
       </form>
 
@@ -34,7 +60,7 @@ export function App() {
       <div className='grid grid-cols-3 gap-6 auto-rows-[250px]'>
         <NewNoteCard onNoteCreated={onNoteCreated} />
 
-        {notes.map(({ id, ...rest }) => (
+        {filteredNotes.map(({ id, ...rest }) => (
           <NoteCard key={id} {...rest} />
         ))}
       </div>

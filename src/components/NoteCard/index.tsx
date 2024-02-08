@@ -4,6 +4,7 @@ import { ptBR } from 'date-fns/locale';
 import { X } from 'lucide-react';
 
 import { NoteCardProps } from '../../@types';
+import { Button } from '..';
 
 export function NoteCard({ id, content, date, onNoteDeleted }: NoteCardProps) {
   const dateDistanceToNow = formatDistanceToNow(date, {
@@ -39,17 +40,7 @@ export function NoteCard({ id, content, date, onNoteDeleted }: NoteCardProps) {
             <p className='text-sm leading-6 text-slate-400'>{content}</p>
           </div>
 
-          <button
-            type='button'
-            className='w-full bg-slate-800 py-4 text-center text-sm text-slate-300 outline-none font-medium group'
-            onClick={() => onNoteDeleted(id)}
-          >
-            Deseja{' '}
-            <span className='text-red-400 group-hover:underline'>
-              apagar essa nota
-            </span>
-            ?
-          </button>
+          <Button variant='delete' onClick={() => onNoteDeleted(id)} />
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

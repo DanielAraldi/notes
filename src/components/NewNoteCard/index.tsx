@@ -3,6 +3,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 import { toast } from 'sonner';
 import { NewNoteCardProps } from '../../@types';
+import { Button } from '..';
 
 let speechRecognition: SpeechRecognition | null = null;
 
@@ -169,21 +170,9 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
             </div>
 
             {isRecording ? (
-              <button
-                type='button'
-                onClick={handleStopRecording}
-                className='w-full flex items-center justify-center gap-2 bg-slate-900 py-4 text-center text-sm text-slate-300 outline-none font-medium hover:text-slate-100'
-              >
-                <div className='size-3 rounded-full bg-red-500 animate-pulse' />
-                Gravando! (clique p/ interromper)
-              </button>
+              <Button variant='record' onClick={handleStopRecording} />
             ) : (
-              <button
-                type='submit'
-                className='w-full bg-lime-400 py-4 text-center text-sm text-lime-950 outline-none font-medium hover:bg-lime-500'
-              >
-                Salvar nota
-              </button>
+              <Button variant='save' />
             )}
           </form>
         </Dialog.Content>

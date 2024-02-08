@@ -5,7 +5,7 @@ import { X } from 'lucide-react';
 
 import { NoteCardProps } from '../../@types';
 
-export function NoteCard({ content, date }: NoteCardProps) {
+export function NoteCard({ id, content, date, onNoteDeleted }: NoteCardProps) {
   const dateDistanceToNow = formatDistanceToNow(date, {
     addSuffix: true,
     locale: ptBR,
@@ -42,6 +42,7 @@ export function NoteCard({ content, date }: NoteCardProps) {
           <button
             type='button'
             className='w-full bg-slate-800 py-4 text-center text-sm text-slate-300 outline-none font-medium group'
+            onClick={() => onNoteDeleted(id)}
           >
             Deseja{' '}
             <span className='text-red-400 group-hover:underline'>

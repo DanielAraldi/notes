@@ -1,3 +1,5 @@
 import { NoteProps } from '..';
 
-export type NoteCardProps = Omit<NoteProps, 'id'>;
+export interface NoteCardProps extends NoteProps {
+  onNoteDeleted(id: string): void;
+}

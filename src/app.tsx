@@ -12,6 +12,11 @@ export function App() {
     return [];
   });
 
+  function handleNotesChange(newNotes: NoteProps[]): void {
+    setNotes(newNotes);
+    localStorage.setItem('notes', JSON.stringify(newNotes));
+  }
+
   function onNoteCreated(content: string): void {
     const newNote: NoteProps = {
       id: nanoid(),
@@ -19,17 +24,16 @@ export function App() {
       content,
     };
 
-    const notesArray = [newNote, ...notes];
+    handleNotesChange([newNote, ...notes]);
+  }
 
-    setNotes(notesArray);
-
-    localStorage.setItem('notes', JSON.stringify(notesArray));
+  function onNoteDeleted(id: string): void {
+    const newNotes = notes.filter(note => note.id !== id);
+    handleNotesChange(newNotes);
   }
 
   function handleSearch(event: ChangeEvent<HTMLInputElement>): void {
-    const query = event.target.value;
-
-    setSearch(query);
+    setSearch(event.target.value);
   }
 
   const filteredNotes: NoteProps[] = search
@@ -61,7 +65,7 @@ export function App() {
         <NewNoteCard onNoteCreated={onNoteCreated} />
 
         {filteredNotes.map(({ id, ...rest }) => (
-          <NoteCard key={id} {...rest} />
+          <NoteCard key={id} id={id} {...rest} onNoteDeleted={onNoteDeleted} />
         ))}
       </div>
     </div>

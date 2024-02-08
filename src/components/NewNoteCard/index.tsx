@@ -19,8 +19,13 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
   }
 
   function handleResetEditor(): void {
-    setContent('');
-    setShouldShowOnboarding(true);
+    if (speechRecognition) speechRecognition.stop();
+
+    startTransition(() => {
+      setContent('');
+      setIsRecording(false);
+      setShouldShowOnboarding(true);
+    });
   }
 
   function handleContentChanged(event: ChangeEvent<HTMLTextAreaElement>): void {
@@ -86,6 +91,8 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
       console.error(event);
       toast.error('Um erro desconhecido aconteceu durante a gravação!');
       speechRecognition!.stop();
+
+      setContent('');
     };
 
     speechRecognition.start();

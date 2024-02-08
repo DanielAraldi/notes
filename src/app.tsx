@@ -1,36 +1,13 @@
 import { ChangeEvent, useState } from 'react';
-import { nanoid } from 'nanoid';
 import { NewNoteCard, NoteCard } from './components';
 import { LOGO } from './config';
 import { NoteProps } from './@types';
+import { useNotes } from './hooks';
 
 export function App() {
+  const { notes, handleCreateNote, handleDeleteNote } = useNotes();
+
   const [search, setSearch] = useState<string>('');
-  const [notes, setNotes] = useState<NoteProps[]>(() => {
-    const notesOnStorage = localStorage.getItem('notes');
-    if (notesOnStorage) return JSON.parse(notesOnStorage);
-    return [];
-  });
-
-  function handleNotesChange(newNotes: NoteProps[]): void {
-    setNotes(newNotes);
-    localStorage.setItem('notes', JSON.stringify(newNotes));
-  }
-
-  function onNoteCreated(content: string): void {
-    const newNote: NoteProps = {
-      id: nanoid(),
-      date: new Date(),
-      content,
-    };
-
-    handleNotesChange([newNote, ...notes]);
-  }
-
-  function onNoteDeleted(id: string): void {
-    const newNotes = notes.filter(note => note.id !== id);
-    handleNotesChange(newNotes);
-  }
 
   function handleSearch(event: ChangeEvent<HTMLInputElement>): void {
     setSearch(event.target.value);
@@ -62,10 +39,15 @@ export function App() {
       <div className='h-px bg-slate-700' />
 
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[250px]'>
-        <NewNoteCard onNoteCreated={onNoteCreated} />
+        <NewNoteCard onNoteCreated={handleCreateNote} />
 
         {filteredNotes.map(({ id, ...rest }) => (
-          <NoteCard key={id} id={id} {...rest} onNoteDeleted={onNoteDeleted} />
+          <NoteCard
+            key={id}
+            id={id}
+            {...rest}
+            onNoteDeleted={handleDeleteNote}
+          />
         ))}
       </div>
     </div>

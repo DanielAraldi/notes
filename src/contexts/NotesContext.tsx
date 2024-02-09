@@ -11,6 +11,10 @@ export function NotesProvider({ children }: Required<PropsWithChildren>) {
     return [];
   });
 
+  function getNoteTimestamp(note: NoteProps | null) {
+    return note ? new Date(note.date).getTime() : 0;
+  }
+
   function handleNotesChange(newNotes: NoteProps[]): void {
     setNotes(newNotes);
     localStorage.setItem('notes', JSON.stringify(newNotes));
@@ -31,9 +35,27 @@ export function NotesProvider({ children }: Required<PropsWithChildren>) {
     handleNotesChange(newNotes);
   }
 
+  function handleUpdateNote(id: string, content: string): void {
+    const notesUpdated = notes
+      .map(note =>
+        note.id === id
+          ? Object.assign(note, {
+              date: new Date(),
+              content: content.trim(),
+            })
+          : note
+      )
+      .sort(
+        (currentNote, nextNote) =>
+          getNoteTimestamp(nextNote) - getNoteTimestamp(currentNote)
+      );
+
+    handleNotesChange(notesUpdated);
+  }
+
   return (
     <NotesContext.Provider
-      value={{ notes, handleCreateNote, handleDeleteNote }}
+      value={{ notes, handleCreateNote, handleDeleteNote, handleUpdateNote }}
     >
       {children}
     </NotesContext.Provider>

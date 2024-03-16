@@ -12,12 +12,12 @@
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.0.5",
-    "date-fns": "^3.3.1",
-    "lucide-react": "^0.323.0",
-    "nanoid": "^5.0.5",
+    "date-fns": "^3.5.0",
+    "lucide-react": "^0.358.0",
+    "nanoid": "^5.0.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sonner": "^1.4.0"
+    "sonner": "^1.4.3"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",
@@ -38,9 +38,9 @@
     "conventional-changelog-writer": "^7.0.1",
     "eslint": "^8.55.0",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.5",
-    "git-commit-msg-linter": "^5.0.6",
-    "husky": "^9.0.10",
+    "eslint-plugin-react-refresh": "^0.4.6",
+    "git-commit-msg-linter": "^5.0.7",
+    "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "postcss": "^8.4.34",
     "semantic-release": "^23.0.2",

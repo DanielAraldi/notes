@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, FormEvent, useTransition } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 import { toast } from 'sonner';
@@ -13,8 +13,6 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
     useState<boolean>(true);
   const [content, setContent] = useState<string>('');
 
-  const [, startTransition] = useTransition();
-
   function handleStartEditor(): void {
     setShouldShowOnboarding(false);
   }
@@ -22,11 +20,9 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
   function handleResetEditor(): void {
     if (speechRecognition) speechRecognition.stop();
 
-    startTransition(() => {
-      setContent('');
-      setIsRecording(false);
-      setShouldShowOnboarding(true);
-    });
+    setContent('');
+    setIsRecording(false);
+    setShouldShowOnboarding(true);
   }
 
   function handleContentChanged(event: ChangeEvent<HTMLTextAreaElement>): void {
@@ -91,7 +87,7 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
     speechRecognition.onerror = event => {
       console.error(event);
       toast.error('Um erro desconhecido aconteceu durante a gravação!');
-      speechRecognition!.stop();
+      handleStopRecording();
 
       setContent('');
     };
@@ -100,7 +96,7 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
   }
 
   function handleStopRecording(): void {
-    startTransition(() => setIsRecording(false));
+    setIsRecording(false);
 
     if (speechRecognition) speechRecognition.stop();
   }

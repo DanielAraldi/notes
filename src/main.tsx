@@ -11,6 +11,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <App />
     </NotesProvider>
 
-    <Toaster richColors />
+    <Toaster richColors closeButton />
   </React.StrictMode>
 );

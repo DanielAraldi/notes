@@ -7,8 +7,7 @@ export const NotesContext = createContext({} as NotesContextProps);
 export function NotesProvider({ children }: Required<PropsWithChildren>) {
   const [notes, setNotes] = useState<NoteProps[]>(() => {
     const notesOnStorage = localStorage.getItem('notes');
-    if (notesOnStorage) return JSON.parse(notesOnStorage);
-    return [];
+    return notesOnStorage ? JSON.parse(notesOnStorage) : [];
   });
 
   function getNoteTimestamp(note: NoteProps | null) {

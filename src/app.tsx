@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from 'react';
+import { toast } from 'sonner';
 import { NewNoteCard, NoteCard } from './components';
 import { LOGO } from './config';
 import { NoteProps } from './@types';
@@ -11,6 +12,12 @@ export function App() {
 
   function handleSearch(event: ChangeEvent<HTMLInputElement>): void {
     setSearch(event.target.value);
+  }
+
+  function onNoteDeleted(id: string): void {
+    handleDeleteNote(id);
+
+    toast.success('Nota apagada com sucesso!');
   }
 
   const filteredNotes: NoteProps[] = search
@@ -42,12 +49,7 @@ export function App() {
         <NewNoteCard onNoteCreated={handleCreateNote} />
 
         {filteredNotes.map(({ id, ...rest }) => (
-          <NoteCard
-            key={id}
-            id={id}
-            {...rest}
-            onNoteDeleted={handleDeleteNote}
-          />
+          <NoteCard key={id} id={id} {...rest} onNoteDeleted={onNoteDeleted} />
         ))}
       </div>
     </div>

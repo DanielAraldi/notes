@@ -1,3 +1,15 @@
+## [1.1.0](https://github.com/DanielAraldi/notes/compare/v1.0.0...v1.1.0) (2024-03-16)
+
+
+### Features
+
+* add toast success when note is deleted ([d0b0c55](https://github.com/DanielAraldi/notes/commit/d0b0c5544208e57bf985d6d39a1823b76d7a4188))
+
+
+### Bug Fixes
+
+* remove unnecessary `useTransaction` for handling states and call `handleStopRecording` when microphone doesn't supported ([383d614](https://github.com/DanielAraldi/notes/commit/383d6142a79c87508fe7393b2d5a726e4d018b04))
+
 ## 1.0.0 (2024-02-09)
 
 
